@@ -1,0 +1,249 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+	keywords?: string;
+	socialPage?: boolean;
+	homePage?: boolean;
+	eventPage?: boolean;
+	mediaKitPage?: boolean;
+	teamPage?: boolean;
+	image?: object;
+}
+
+const { title, description, image} = Astro.props;
+
+
+// component imports
+import Seo from '../components/Utils/Seo.astro'
+import Alert from '../components/Utils/Alert.astro';
+import TopButton from '../components/Utils/TopButton.astro';
+import Footer from '../components/Sections/Footer.astro';
+// utils import 
+import {emptyStringChecker} from '../js/utils.js'
+// styles import
+import '../styles/dew-fonts/stylesheet.css'
+import '../styles/colors.css';
+import "../styles/fonts.css";
+
+
+
+let pageTitle = title;
+let defaultDescription = "Recharge Esports Arena is an exhilarating gaming event that captivates the hearts and minds of gamers from across the country. Hosted with the backing of a popular beverage brand, Recharge Esports Arena offers an electrifying platform for gamers to showcase their skills, compete at the highest level, and embrace the spirit of friendly rivalry.";
+let defaultKeyword = "event, management, discovery one, d1 cup, marketing, production, dhaka, rangpur, cgs, event, organizer, Esports, Series, mobile, Bangladesh, tournament, esports, gaming, bangladeshi, zenetic esports";
+// if(keywords) defaultKeyword = keywords + ", " + defaultKeyword;
+
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="generator" content={Astro.generator} />
+
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="robots" content="index,follow">
+
+		<link rel="icon" type="image/svg+xml" href="/favicon.png" />
+		<Seo 
+		title={pageTitle}
+		description={emptyStringChecker(description, defaultDescription)}
+		url={Astro.url}
+		{image}
+		/>
+		<title>{pageTitle}</title>
+		<meta name="description" content={emptyStringChecker(description, defaultDescription)}/>
+		<meta name="keywords" content={defaultKeyword} />
+		
+		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+		<link href="https://www.dafontfree.net/embed/YW1lcmljYW4tY2FwdGFpbi1yZWd1bGFyJmRhdGEvMy9hLzE0NjI4L0FtZXJpY2FuIENhcHRhaW4udHRm" rel="stylesheet" type="text/css"/>
+
+	</head>
+	<body>
+		<TopButton />
+		<Alert/>
+		<slot />
+		<Footer />
+	</body>
+</html>
+
+
+
+
+<script>
+	const body = document.querySelector("body");
+	window.addEventListener('scroll', () =>{
+		//adds the "scroll-true class to the body"
+		if (window.scrollY> 120) {body.classList.add("scroll-true-180");} 
+		else {body.classList.remove("scroll-true-180");} 
+		if (window.scrollY> 90) {body.classList.add("scroll-true-90");} 
+		else {body.classList.remove("scroll-true-90");} 
+	})
+</script>
+<script is:inline>
+    // gets the api url
+    function getFetchUrl(path) {
+        return `https://my-app.farhanchowdhury65433591.workers.dev/${path}`
+    }
+    // form error filed handling
+    function errorFiled(el, msg, inputEl=null) {
+	
+        const elm = document.getElementById(el.toString());
+		
+        elm.style.opacity = '1';
+        elm.innerText = msg;
+        // console.log(elm.parentElement)
+
+        if(inputEl)   document.getElementById(inputEl).classList.add('red-error-border');
+        setTimeout(() => {
+            elm.style.opacity = '0';
+            if(inputEl) document.getElementById(inputEl).classList.remove('red-error-border');
+        }, 9000)
+    }
+</script>
+<style is:global>
+	*, *::before, *::after {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+		text-decoration: none;
+		list-style: none;
+		color: inherit;
+	}
+	html {
+		--container-max-width: 1200px;
+		scroll-behavior: smooth;
+		color-scheme: dark light;
+	}
+	body{
+		font-family: system-ui, sans-serif;
+		font-family: 'Nunito Sans', sans-serif;
+		color: var(--clr-light-silver);
+		
+		min-height: 100vh;
+		background: var(--main-bg-gradient)
+	}
+	/* @supports (mix-blend-mode:overlay) {
+		body::before{
+		content: ' ';
+		position: fixed;
+		z-index: 100000;
+		height: 120%;
+		width: 120%;
+		pointer-events: none;
+		background-image: url('/assets/noise.webp');
+		mix-blend-mode:overlay;
+		opacity: 0.33;
+		user-select: none;
+	}
+	} */
+
+
+	input, textarea, button, select{
+		font: inherit;
+	}
+	code {
+		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+			Bitstream Vera Sans Mono, Courier New, monospace;
+		font-size: 0.875em;
+		font-weight: bold;
+		background: rgba(var(--clr-accent-1-rgba), 12%);
+		color: var(--clr-accent-1);
+		border-radius: 4px;
+		padding: 0.3em 0.45em;
+	}
+	strong {
+		color: rgb(var(--clr-accent-1-rgba));
+	}
+
+	.pre{
+		white-space: pre;
+	}
+	.grid{
+		display: grid;
+	}
+	.flex{
+		display: flex;
+	}
+	.flex-wrap{
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.accent-clr{
+		color: var(--clr-accent-1);
+	}
+	.red-clr{
+		color: var(--clr-red);
+	}
+	.text-gradient-accent {
+		color: var(--clr-accent-1);
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
+	}
+	.text-gradient-silver {
+		color: var(--clr-light-silver);
+		background-image: var(--silver-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
+	}
+	.deactive{
+		display: none !important;
+	}
+	.inline-link{
+		
+	padding: 0.14em 0.4em;
+	border-radius: 5px;
+	background: rgba(var(--clr-accent-1-rgba), 0.2);
+	color: var(--clr-accent-1);
+	transition: var(--transition-speed);
+	filter: drop-shadow(0px 0px 30px rgba(var(--clr-accent-1-rgba), 0.4));
+	}
+	.inline-link[href]:hover{
+		user-select: none;
+		transition: var(--transition-speed);
+		cursor: pointer;
+		background: rgba(var(--clr-accent-1-rgba), 0.3);
+		filter: drop-shadow(0px 0px 30px rgba(var(--clr-accent-1-rgba), 0.9));
+	}
+	
+	@keyframes pulse {
+    0% {
+        opacity: 0.2;
+    }
+    100% {
+        opacity: 1;
+    }
+	}
+	.skeleton-load{
+        animation: pulse 1s  ease-in-out infinite;
+    }
+    .red-error-border{
+        border: 1px solid rgb(255, 22, 77);
+    }
+
+	.container{
+	max-width: var(--container-max-width);
+    margin: 0  auto;
+    padding: 5rem 2rem;
+	}
+	
+	@media screen and (max-width:400px){
+		.container{
+    	padding: 5rem 1.3rem;
+	}
+    }
+	@media screen and (max-width:300px){
+		.container{
+    	padding: 5rem 1rem;
+	}
+    }
+	main{
+		padding-top: 2rem;
+	}
+</style>

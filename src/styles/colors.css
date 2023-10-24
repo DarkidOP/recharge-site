@@ -1,0 +1,70 @@
+:root {
+    --clr-accent-1: #a6ce39;
+    --clr-accent-1-rgba: 166, 206, 57;
+    /* --clr-accent-2: #98ea34;
+    --clr-accent-2-rgba: 152, 234, 52; */
+
+    --accent-gradient: linear-gradient(45deg, #5b8d37, var(--clr-accent-1) 30%, var(--clr-dark-1) 60%);
+    --accent-gradient-txt: linear-gradient(45deg, rgb(var(--clr-accent-1-rgba)) 0%, var(--clr-accent-2) 100%);
+    --silver-gradient: linear-gradient(0deg, var(--clr-light-silver) 0%, var(--clr-pure-white) 97%);
+    --main-bg-gradient: linear-gradient(180deg, var(--clr-dark-1) 0%, var(--clr-dark-0) 100%);
+
+    --clr-dark-0: #030800;
+    --clr-dark-0-rgba: 3, 8, 0;
+    --clr-dark-1: #081600;
+    --clr-dark-1-rgba: 8, 22, 0;
+    /* --clr-dark-2: #1e2639;
+    --clr-dark-2-rgba: 30, 38, 57; */
+
+    --clr-light-silver: #d1e0d2;
+    --clr-light-silver-rgba: 209, 211, 218;
+    --clr-pure-white:  #fff;
+    --clr-pure-white-rgba:  255, 255, 255;
+
+
+
+
+    --clr-red: #e91236;
+    --clr-dew-red: #e5002b;
+    --clr-red-rgba: 233, 18, 54;
+    --clr-green-0: #57ca81;
+    --clr-green-0-rgb: 87, 202, 129;
+    --transition-speed: 250ms;
+}
+
+:root {
+    --clr-accent-1: #F79649;
+    --clr-accent-1-rgba: 247, 150, 73;
+    /* --clr-accent-2: #98ea34;
+    --clr-accent-2-rgba: 152, 234, 52; */
+
+    --accent-gradient: linear-gradient(45deg, #5b8d37, var(--clr-accent-1) 30%, var(--clr-dark-1) 60%);
+    --accent-gradient-txt: linear-gradient(45deg, rgb(var(--clr-accent-1-rgba)) 0%, var(--clr-accent-2) 100%);
+    --silver-gradient: linear-gradient(0deg, var(--clr-light-silver) 0%, var(--clr-pure-white) 97%);
+    --main-bg-gradient: linear-gradient(180deg, var(--clr-dark-0) 0%, var(--clr-dark-0) 100%);
+
+    --clr-dark-0: #000000;
+    --clr-dark-0-rgba: 0, 0, 0;
+    --clr-dark-1: #111111;
+    --clr-dark-1-rgba: 17, 17, 17;
+    --clr-dark-2: #171719;
+    --clr-dark-2-rgba: 23, 23, 25;
+
+    --clr-light-silver: #d1d1d1;
+    --clr-light-silver-rgba: 209, 209, 209;
+    --clr-pure-white:  #fff;
+    --clr-pure-white-rgba:  255, 255, 255;
+
+
+
+
+    --clr-red: #e91236;
+    --clr-dew-red: #e5002b;
+    --clr-red-rgba: 233, 18, 54;
+    --clr-green-0: #57ca81;
+    --clr-green-0-rgb: 87, 202, 129;
+    --transition-speed: 250ms;
+}
+
+
+

@@ -1,0 +1,58 @@
+---
+const { title,description, gameList} = Astro.props;
+import GameLogoImg from "../Utils/GameLogoImg.astro";
+
+---
+<div class="wrapper gameCardWrapper">
+    <h1 class="title">{title}</h1>
+    <div class="line"></div>
+    <p class="description">{description}</p>
+    <ul class="games-wrapper">
+        {
+            gameList.map(game => <GameLogoImg class="gameLogo" {game}/>)
+        }
+    </ul>
+</div>
+
+<style>
+    .wrapper {
+        /* min-height: 298; */
+        /* width: 300px; */
+        background: linear-gradient(180deg, rgba(var(--clr-accent-1-rgba), 0.24) 0%, rgba(var(--clr-dark-0-rgba), 0) 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+       
+    }
+    .title{
+        font-size: 2.8rem;
+        letter-spacing: 0.5px;
+        padding: 0.3em;
+        /* border-bottom: 2px solid var(--clr-accent-1); */
+        color: var(--clr-accent-1);
+    }
+    .line{
+        width: 100%;
+        height: 2px;
+        background-color: var(--clr-accent-1);
+    }
+    .description{
+
+        opacity: 0.8;
+        padding: 2rem;
+        font-size: 1.2rem;
+    }
+    .games-wrapper{
+        padding: 1.5rem;
+        padding-top: 1rem;
+
+        padding-bottom: 4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+    }
+
+
+</style>

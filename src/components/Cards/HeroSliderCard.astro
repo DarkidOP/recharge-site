@@ -1,0 +1,33 @@
+---
+const { class: className, Image } = Astro.props;
+--- 
+<div class={className}>
+    <div class="wrapper">
+        <div class="overlay"></div>
+        <img class="backdrop" src={Image} alt="">
+    </div>
+</div>
+<style>
+        .wrapper .backdrop{
+        width: 100%;
+        cursor: grab;
+
+    }
+    /* .wrapper{
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        position: relative;
+    }
+    .wrapper .backdrop{
+        width: 70%;
+
+    }
+    .overlay{
+        position: absolute;
+        left: 0;
+        height: 100%;
+        width: 30%;
+        background-color: red;
+    } */
+</style>

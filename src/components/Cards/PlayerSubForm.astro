@@ -1,0 +1,187 @@
+---
+const { playerNum } = Astro.props;
+let firstPlayer = false;
+let playerLabel = "Player " + playerNum,
+playerId = "player" + playerNum + "_";
+if(playerNum == 2){
+    firstPlayer = true;
+}
+let required = true;
+let optionalTxt = "";
+if(playerNum > 5) {
+    optionalTxt = " // Optional"
+    required = false;
+}
+// player[num]_bottleCode_error_text
+// input error outline class: input-error
+
+---
+<div  class:list={[ 'subFromWrapper', { subFromWrapper0: firstPlayer } ]}>
+    <div class="text-wrapper">
+        <h1 class="title">{playerLabel} <span class="optinal-txt">{optionalTxt}</span></h1>
+    </div>
+    <div class="form-inputs-wrapper">
+        <div class="form-group">
+            <label for={playerId + "email"}>{playerLabel} Email</label>
+            <input class="form-input player-form-input" type="email" name={ playerId + "email"} id={playerId + "email"} placeholder="Email" {required}>
+        </div>
+        <div class="form-group">
+            <label for={playerId + "number"}>{playerLabel} Mobile</label>
+            <input class="form-input player-form-input" type="tel" name={playerId + "number"} id={playerId + "number"} placeholder="Mobile" {required}>
+        </div>
+        <div class="form-group">
+            <label for={playerId + "ign"}>{playerLabel} In game name</label>
+            <input class="form-input player-form-input" type="text" name={playerId + "ign"} id={playerId + "ign"} placeholder="In game name" {required}>
+        </div>
+        <div class="form-group">
+            <p class="input-error-text" id={ playerId + "age_error_text"}></p>
+            <label for={playerId + "age"}>{playerLabel} Age <span>(Must be 14+)</span></label>
+            <input class="form-input player-form-input" type="number" min="14" max="100" name={playerId + "age"}id={playerId + "age"}placeholder="Age" {required}>
+        </div>
+        <div class="form-group">
+            <p class="input-error-text" id={ playerId + "bottleCode_error_text"}></p>
+            <label for={playerId + "bottleCode"}>{playerLabel} Bottle Code</label>
+            <input class="form-input player-form-input" type="number" min="0" name={playerId + "bottleCode"}id={playerId + "bottleCode"}placeholder="Bottle Code" {required}>
+        </div>
+    </div>
+</div>
+<style>
+/* form heading css start */
+
+
+    .subFromWrapper{
+        padding-top: 2.3rem;
+    }
+
+    .subFromWrapper0{
+        padding-top: 0;
+    }
+    .text-wrapper{
+        padding: 0.2rem 0;
+        padding-bottom: 0;
+    }
+    .title{
+        letter-spacing: 2px;
+        line-height: 1em;
+        font-size: clamp(1.2rem, 7vw, 2.4rem);
+        color: var(--clr-light-silver);
+        font-weight: 500;
+    }
+    .optinal-txt{
+        font-family: 'Roboto', sans-serif;
+        font-size: clamp(0.8rem, 3.5vw, 1.4rem);
+        opacity: 0.65;
+        letter-spacing: .4px;
+    }
+    .desc{
+        font-size: clamp(0.8rem, 3vw, 1.2rem);
+        opacity: 0.7;
+    }
+      /* form heading css end */
+
+     /* input css start */
+    .form-inputs-wrapper{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1.2rem;
+        padding: 1rem 0;
+    }
+    .form-group{
+        flex: 1 1 250px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+    @media screen and (max-width:440px){
+        .form{
+            padding: 1rem;
+        }
+        .form-group{
+        flex: 1 0 120px;
+        }
+    }
+    .form-group label {
+        opacity: 0.8;
+    }
+    .form-group label span{
+        opacity: 0.7;
+        font-size: 0.9em;
+        text-transform: uppercase;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+    .form-input{
+        all: unset;
+        /* resize: vertical; */
+        color: var(--clr-light-silver);
+        /* border-radius: 5px; */
+        background-color: rgba(var(--clr-dark-0-rgba), 0.5);
+        border: 1px  solid transparent;
+        text-align: start;
+        padding: .8rem;
+        
+    }
+    .form-input:focus {
+        transition: var(--transition-speed) ease-in-out;
+        background-color: rgba(var(--clr-dark-0-rgba), 0.8);
+        border-bottom: 1px  solid rgba(var(--clr-accent-1-rgba), 0.95);
+    }
+    /* input css end / form css end */
+    /* submit button */
+    .submit-btn{
+        all: unset;
+        position: absolute;
+        bottom: -20px;
+        right: 2.1rem;
+        font-size: 1.2rem;
+        padding: 0.5em 1.5em;
+        color: var(--clr-dark-1);
+        background-color: var(--clr-accent-1);
+        border: 2px solid  transparent;
+        /* border-radius: 3px; */
+        font-family: 'American Captain', sans-serif;
+        cursor: pointer;
+        transition: var(--transition-speed);
+    }
+    .submit-btn:is(:hover, :focus){
+        transition: var(--transition-speed);
+        background-color: var(--clr-dark-1);
+        color:  var(--clr-accent-1);
+        border: 2px solid  var(--clr-accent-1);
+    }
+    @media screen and (max-width:370px){
+        .form-input{
+            width: 85%;
+        }
+    }
+    body{
+		width: 100%;
+		overflow-x: hidden;
+	}
+    .input-error{
+        border: 1px solid var(--clr-dew-red);
+    }
+    .input-error-text{
+        position: absolute;
+        right: 0;
+        bottom: -1rem;
+        font-size: 0.82rem;
+        color: rgb(255, 22, 77);
+        border-radius: 5px;
+        pointer-events: none;
+        
+    }
+    .red-error-border{
+        border: 1px solid rgb(255, 22, 77);
+    }
+</style>

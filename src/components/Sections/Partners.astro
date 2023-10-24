@@ -1,0 +1,48 @@
+---
+import SectionTitle from "../Utils/SectionTitle.astro";
+import PartnerCard from "../Cards/PartnerCard.astro"
+---
+<section class="container">
+<SectionTitle text="Partners"/>
+<div class="partners-wrapper">
+    <PartnerCard
+    name="Bkash"
+    logo="/assets/PartnerLogos/bkash.png"
+    description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore rerum placeat, ducimus aspernatur sint in mollitia quidem. Ea omnis error eum numquam, odit nulla vero et voluptate optio tenetur harum."
+    link="#"
+    class="partnerCard"
+    />
+    <PartnerCard 
+    logo="/assets/PartnerLogos/L7.png"
+    description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore rerum placeat, ducimus aspernatur sint in mollitia quidem. Ea omnis error eum numquam, odit nulla vero et voluptate optio tenetur harum."
+    link="#"
+    class="partnerCard"
+    />
+    <PartnerCard 
+    logo="/assets/PartnerLogos/zenetic.png"
+    description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore rerum placeat, ducimus aspernatur sint in mollitia quidem. Ea omnis error eum numquam, odit nulla vero et voluptate optio tenetur harum."
+    link="#"
+    class="partnerCard"
+    />
+
+</div>
+</section>
+
+<style is:global>
+    .partners-wrapper {
+        margin-inline: auto;
+        max-width: 97%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3rem;
+        justify-content: space-around;
+    }
+    .partnerCard{
+        flex: 1 1 245px;
+    }
+</style>
+<style>
+    .container{
+        margin-top: -3.5rem;
+    }
+</style>

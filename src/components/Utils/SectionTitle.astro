@@ -1,0 +1,14 @@
+---
+const { class: className, text } = Astro.props;
+---
+<h1 class={className}>{text}</h1>
+<style>
+    h1{
+        transform: skew(-0.014turn, 0);
+        font-size:clamp(3.1rem, 10vw, 4.3rem);
+        /* letter-spacing: 0.05em; */
+        color: var(--clr-accent-1);
+        margin-bottom: 1.75rem;
+        text-transform: uppercase;
+    }
+</style>

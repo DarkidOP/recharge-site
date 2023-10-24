@@ -1,0 +1,74 @@
+<footer>
+    <div class="container">
+        <img class="dew-logo" src="/dew-areana-logo.png" alt="Dew Arena BD">
+        <div class="contenter-wrapper">
+            <ul class="socials">
+                <li class="social"><a href="#" target="_blank"><i class='bx bxl-discord-alt'></i></a></li>
+                <li class="social"><a href="#" target="_blank"><i class='bx bxl-facebook-circle' ></i></a></li>
+                <li class="social"><a href="#" target="_blank"><i class='bx bxl-youtube'></i></a></li>
+                <li class="social"><a href="#" target="_blank"><i class='bx bxl-instagram'></i></a></li>
+                <li class="social"><a href="#" target="_blank"><i class='bx bxl-twitter'></i></a></li>
+                <li class="social"><a href="#" target="_blank"><i class='bx bxl-twitch'></i></li>
+            </ul>
+            <a>
+                <p class="desc">COPYRIGHT @ 2023 Recharge. ALL RIGHTS RESERVED
+                <br/> <a class="okk" href="http://zeneticesports.com" target="_blank">TERMS & CONDITIONS</a></p>
+            </a>
+
+        </div>
+    </div>
+</footer>
+<style>
+    footer{
+        margin-top: 6rem;
+        width: 100%;
+        background: linear-gradient(180deg, var(--clr-dark-1) 0%, var(--clr-dark-0) 100%);
+        border-top: 2px solid var(--clr-accent-1);
+    }
+    .container{
+
+        padding-bottom: 4rem;
+        display: flex;
+        flex-wrap: wrap;
+        place-items: center;
+        justify-content: center;
+        gap: 2rem;
+
+    }
+    .dew-logo{
+        max-width: 200px;
+    }
+    .socials{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        font-size: clamp(2rem, 7vw, 2.8rem);
+        color: var(--clr-accent-1);
+        justify-content: start;
+    }
+    .social{
+        transition: var(--transition-speed);
+    }
+    .social:is(:hover, :focus){
+        transition: var(--transition-speed);
+        opacity: 0.5;
+    }
+    .desc{
+        opacity: 0.7;
+    }
+    .okk{
+        text-decoration: underline;
+    }
+    @media screen and (max-width:760px){
+        .container{
+            text-align: center;
+        }
+        .desc{
+            text-align: center;
+        }
+        .socials{
+            justify-content: center;
+            
+        }
+    }
+</style>

@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+import Header from '../components/Sections/Header.astro';
+import HeroSlider from '../components/Sections/HeroSlider.astro';
+import About from '../components/Sections/About.astro';
+import UpdateRegForm from '../components/Sections/LeaderRegForm.astro';
+import GameLogosSec from '../components/Sections/GameLogosSec.astro';
+import Prizepool  from '../components/Sections/Prizepool.astro';
+import Partners from '../components/Sections/Partners.astro';
+
+---
+
+<Layout title="Recharge Esports Arena">
+	<Header/>
+	<HeroSlider/>
+	<About/>
+	<UpdateRegForm/>
+	<GameLogosSec/>
+	<Prizepool />
+	<Partners />
+
+
+</Layout>
+<style>
+	body{
+		width: 100%;
+		overflow-x: hidden;
+	}
+</style>

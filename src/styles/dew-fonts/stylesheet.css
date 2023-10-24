@@ -1,0 +1,21 @@
+
+@font-face {
+    font-family: 'americancaptain01uploadedfile';
+    src: url('dew-american-captain-webfont.woff2') format('woff2'),
+         url('dew-american-captain-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'dinwxx-regularuploaded_file';
+    src: url('din-wxx-regular-webfont.woff2') format('woff2'),
+         url('din-wxx-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}

@@ -1,0 +1,79 @@
+---
+import SectionTitle from "../Utils/SectionTitle.astro";
+import GameCard from "../Cards/GameCard.astro";
+let gameList1= [
+        {
+            name: "Street Fighter",
+            logo: "/assets/GameLogos/streetFighter.png"
+        },
+        {
+            name: "Fifa24",
+            logo: "/assets/GameLogos/fifa24.png"
+        }
+    ],
+    gameList2=  [
+        {
+            name: "Cs2",
+            logo: "/assets/GameLogos/cs2.png"
+        },
+        {
+            name: "Valorant",
+            logo: "/assets/GameLogos/valorant.png"
+        },
+        {
+            name: "MLBB",
+            logo: "/assets/GameLogos/mlbb.png"
+        }
+    ],
+    gameList3= [
+        {
+            name: "eFootball",
+            logo: "/assets/GameLogos/football.png"
+        }
+    ];
+
+---
+<section class="container">
+<SectionTitle text="DISCOVER THE NEW ERA OF GAMING AT THE Recharge Esports Arena"/>
+<div class="games-wrapper">
+    <GameCard 
+    title="On-Ground"
+    description="The battle grounds are set at the Dew Arena"
+    gameList={gameList1}
+    />
+    <GameCard 
+    title="Online"
+    description="Unleash your true potential in the ultimate battle"
+    gameList={gameList2}
+    />
+    <GameCard 
+    
+    title="Mobile"
+    description="Eat, Sleep, Game, Repeat!"
+    gameList={gameList3}
+    />
+</div>
+</section>
+<style is:global>
+    .games-wrapper{
+        /* background-color: red; */
+        margin-inline: auto;
+        max-width: 97%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3rem;
+        justify-content: space-around;
+
+    }
+    .gameCardWrapper{
+        flex: 1 1 298px;
+    }
+    @media screen and (max-width:1200px){
+        .games-wrapper{
+            gap: 2rem;
+        }
+        /* .gameCardWrapper{
+            margin-top: -2rem;
+        } */
+    }
+</style>

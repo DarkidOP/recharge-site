@@ -1,0 +1,270 @@
+<section class="container">
+    <form class="form" id="leaderForm" method="post"  name="contact-form">
+        <div class="leader-form-content" id="leader-form-content">
+            <div class="text-wrapper">
+                <h1 class="title">The battle lines have been drawn.</h1>
+                <p class="desc">*one email, number and bottle code only be used once</p>
+            </div>
+            <div class="form-inputs-wrapper">
+                <div class="form-group">
+                    <p class="input-error-text" id="leader_email_error">Error!</p>
+                    <label for="email">Email</label>
+                    <input class="form-input" type="email" name="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <p class="input-error-text" id="leader_number_error">Error!</p>
+                    <label for="number">Mobile</label>
+                    <input class="form-input" type="number" name="mobile" id="number" placeholder="Mobile" required>
+                </div>
+                <div class="form-group">
+                    <p class="input-error-text" id="age_error">Error!</p>
+                    <label for="age">Age <span>(Must be 14+)</span></label>
+                    <input class="form-input" type="number" name="age" min="14" max="100" id="age"placeholder="Age" required>
+                </div>
+                <div class="form-group">
+                    <p class="input-error-text" id="leader_code_error">Error!</p>
+                    <label for="bottleCode">Bottle Code</label>
+                    <input class="form-input" type="number" name="bottleCode" id="bottleCode"placeholder="Bottle Code" required>
+                </div>
+
+                
+            </div>
+            <input class="submit-btn" type="submit" value="SIGN UP" id="submit" placeholder="SIGN UP">
+        </div>
+        <div class="leader-form-complete" id="leader-form-complete">
+            <h1 id="leader-form-complete_text">Sigup completed! check you mail for confirmation mail</h1>
+            <p id="leader_email_sent_to"></p>
+        </div>
+        
+    </form>
+</section>
+<script is:inline>
+
+    const form = document.getElementById('leaderForm');
+    const email = document.getElementById('email');
+    const number = document.getElementById('number');
+    const age = document.getElementById('age');
+    const bottleCodeEl = document.getElementById('bottleCode');
+
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        console.log(age.value)
+        const formData = new FormData;
+        formData.append('email', email.value);
+        formData.append('number', number.value);
+        formData.append('age', age.value);
+        formData.append('bottleCode', bottleCodeEl.value);
+
+
+        // successAlert('Sign up complete!');
+        // dangerAlert("Bottle Code Didn't match!");
+        // getFetchUrl('leaderSignUp')
+        // 'http://127.0.0.1:8787/leaderSignUp'
+        try {
+            const res = await fetch(getFetchUrl('leaderSignUp'), {
+                method: 'POST',
+                body: formData
+            })
+            const resData = await res.json();
+
+            console.log(resData);
+            // server error
+            if(resData.status_code == 500) throw new Error(resData.message);
+            // bad request
+            if(resData.status_code == 400) throw new Error(resData.message);
+            // bottle code error
+            if(resData.status_code == 433 || resData.status_code == 434){
+                errorFiled('leader_code_error', resData.message, 'bottleCode');
+                throw new Error(resData.message);
+            }
+            // email / number error
+            if(resData.status_code == 436){
+                if(resData.erroFields.email_used){
+                    errorFiled('leader_email_error', resData.message, 'email');
+                }
+                if(resData.erroFields.number_used){
+                    errorFiled('leader_number_error', resData.message, 'number');
+                }
+                throw new Error(resData.message);
+            }
+
+            if(resData.status_code == 200){
+                successAlert('Sign up complete!', 4500);
+                document.getElementById('leader-form-content').style.display = 'none';
+                document.getElementById('leader-form-complete').style.display = 'block';
+                document.getElementById('leader-form-complete_text').innerText = resData.message;
+                document.getElementById('leader_email_sent_to').innerText = "Email sent to " + email.value;
+            }
+
+        } catch (err) {
+
+            if(!err.message) dangerAlert("Error! try checking your internet connection", 5000);
+            else dangerAlert("Error! " + err.message, 5000);
+        }
+    });
+</script>
+
+<style>
+    .container{
+        margin-bottom: 3.4rem;
+    }
+    .form{
+        padding: 2rem;
+        background-color: rgba(var(--clr-pure-white-rgba), 0.1);
+        background: var(--clr-dark-2);
+        position: relative;
+    }
+    .text-wrapper{
+        padding: 0.5rem 0;
+    }
+    .title{
+        font-size: clamp(1.9rem, 7vw, 2.8rem);
+        letter-spacing: 0.5px;
+        color: var(--clr-accent-1);
+        line-height: 1em;
+    }
+    .desc{
+        font-size: clamp(1rem, 7vw, 1.3rem);
+        opacity: 0.7;
+    }
+    .form-inputs-wrapper{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.7rem;
+        padding: 1rem 0;
+    }
+    .form-group{
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 250px;
+        position: relative;
+    }
+    .form-group label {
+        opacity: 0.8;
+    }
+    .form-group label span{
+        opacity: 0.7;
+        font-size: 0.9em;
+        text-transform: uppercase;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+    .form-input{
+        all: unset;
+
+    color: var(--clr-light-silver);
+    /* border-radius: 5px; */
+    background-color: rgba(var(--clr-dark-0-rgba), 0.55);
+    border: 2px  solid transparent;
+    text-align: start;
+    padding: .8rem;
+    }
+    .form-input:focus {
+    transition: var(--transition-speed) ease-in-out;
+    background-color: rgba(var(--clr-dark-0-rgba), 0.95);
+    border-bottom: 2px  solid rgba(var(--clr-accent-1-rgba), 0.8);
+    }
+    .submit-btn{
+        all: unset;
+        text-align: center;
+        position: absolute;
+        bottom: -23px;
+        right: 2.1rem;
+        font-size: 1.6rem;
+        padding: 0.115em 0.85em;
+        color: var(--clr-dark-1);
+        background-color: var(--clr-accent-1);
+        border: 2px solid  transparent;
+        /* border-radius: 3px; */
+        font-family: var(--font-family-accent), sans-serif;
+        cursor: pointer;
+        transition: var(--transition-speed);
+    }
+    .submit-btn:is(:hover, :focus){
+        transition: var(--transition-speed);
+        background-color: var(--clr-dark-1);
+        color:  var(--clr-accent-1);
+        border: 2px solid  var(--clr-accent-1);
+    }
+    @media screen and (max-width:370px){
+        .form{
+            width: 100%;
+        }
+        .form-group{
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 100px;
+        max-width: 100%;
+    }
+    }
+    @media screen and (max-width:400px){
+        .form{
+        padding: 0.8rem;
+        
+    }
+    }
+    @media screen and (max-width:610px){
+        .submit-btn{
+            right: 50%;
+            transform: translateX(50%)
+        }
+        .form-inputs-wrapper{
+
+        gap: 1.2rem;
+    }
+    }
+    @media screen and (max-width:330px){
+        .submit-btn{
+            bottom: -3rem;
+            right: 50%;
+            transform: translateX(50%)
+        }
+    }
+
+
+    .leader-form-complete{
+        display: none;
+        text-align: center;
+    }
+    .leader-form-complete h1{
+        font-weight: 400;
+        font-size: clamp(1.1rem, 6vw, 3rem);
+        text-align: center;
+        opacity: 0.8;
+        color: var(--clr-accent-1);
+    }
+    .leader-form-complete p{
+        opacity: 0.76;
+    }
+    .input-error{
+        border: 1px solid var(--clr-dew-red);
+    }
+    .input-error-text{
+        position: absolute;
+        right: 0;
+        bottom: -1.1rem;
+        font-size: 0.86rem;
+        font-weight: 600;
+        color: rgb(255, 22, 77);
+        border-radius: 5px;
+        pointer-events: none;
+        text-align: end;
+        opacity: 0;
+    }
+    .red-error-border{
+        border: 1px solid rgb(255, 22, 77);
+    }
+
+</style>

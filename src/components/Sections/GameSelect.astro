@@ -1,0 +1,250 @@
+---
+import ImgButtonCard from "../Cards/ImgButtonCard.astro";
+import SectionTitle from "../Utils/SectionTitle.astro";
+const games = ["valorant", "mlbb", "cs2", "efootball"];
+const divisions = ["rangpur", "rajshahi", "mymensingh", "sylhet", "dhaka", "khulna", "barisal", "chittagong"];
+---
+<div class="main-wrapper">
+    <form action="" class="" id="seletcion-form">
+        <div class="games-cotainer selection-container">
+            <h1 class="selection-title">Select your game</h1>
+            <div class="items-wrapper">
+                {
+                    games.map(game=> 
+                        <ImgButtonCard
+                        cat="games"
+                        id={game }
+                        bg_img={`/assets/button-bgs/${game}.png`}
+                        lable_img={`/assets/GameLogos/${game}.png`}
+                        />
+                    )
+                }
+            </div>
+        </div>
+        <div class="games-cotainer selection-container">
+            <h1 class="selection-title">Select your division</h1>
+            <div class="items-wrapper">
+                {
+                    divisions.map(division=> 
+                        <ImgButtonCard
+                        cat="divisions"
+                        id={division}
+                        bg_img={`/assets/button-bgs/y/${division}.png`}
+                        lable_text={division}
+                        />
+                    )
+                }
+            </div>
+        </div>
+        <input class="submit-btn" type="submit" value="confirm" id="selection-confirm" placeholder="Confirm">
+    </form>
+    <div class="selected-container" id="selected-section">
+        <div class="selected-wrapper">
+            <h1 class="selection-title">Selected Game</h1>
+            <div class="items-wrapper">
+                <div class="button-wrap">
+                    <img src="/assets/button-bgs/valorant.png" id="selected-game-bg">
+                    <div class="overlay"></div>
+                    <div class="lable-content">
+                        <img src=/assets/GameLogos/valorant.png alt="" id="selected-game-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="selected-wrapper">
+            <h1 class="selection-title">Selected Division</h1>
+            <div class="items-wrapper">
+                <div class="button-wrap">
+                    <img src="/assets/button-bgs/x/dhaka.png" id="selected-division-bg">
+                    <div class="overlay"></div>
+                    <div class="lable-content">
+                        <h3 class="lable-text" id="selected-division-name">Dhaka</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script is:inline>
+    const selectionForm = document.getElementById('seletcion-form');
+    const selectedSec = document.getElementById('selected-section');
+    const selectedGameBg = document.getElementById('selected-game-bg'),
+        selectedGameLogo = document.getElementById('selected-game-logo');
+    const selectedDivisionBg = document.getElementById('selected-division-bg'),
+        selectedDivisionText = document.getElementById('selected-division-name');
+
+    
+    let selectedGame = null, selectedDivision = null;
+    selectionForm.addEventListener('submit', async (e)=> {
+        e.preventDefault();
+
+        // sends an err message if any filed is not
+        if(!document.querySelector('input[name=games]:checked') || !document.querySelector('input[name=divisions]:checked')){
+            dangerAlert('Please select a game & division first!');
+            return;
+        }
+
+        selectionForm.classList.add('disabled-selection');
+        selectedSec.classList.add('active-selected');
+        leaderForm.classList.add('active-selected');
+
+        selectedGame = document.querySelector('input[name=games]:checked').value;
+        selectedDivision = document.querySelector('input[name=divisions]:checked').value;
+
+
+        
+        selectedGameBg.setAttribute('src', `/assets/button-bgs/${selectedGame}.png`);
+        selectedGameLogo.setAttribute('src', `/assets/GameLogos/${selectedGame}.png`);
+        if(selectedGame == "efootball") selectedGameLogo.setAttribute('src', `/assets/GameLogos/football.png`);
+        selectedGameLogo.setAttribute('alt', `${selectedGame}`);
+
+        selectedDivisionBg.setAttribute('src', `/assets/button-bgs/y/${selectedDivision}.png`);
+        selectedDivisionText.innerText = selectedDivision;
+    })
+</script>
+<style>
+    .main-wrapper {
+        padding-bottom: 3rem;
+    }
+    .selection-container {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+    }
+    .selection-title{
+        user-select: none;
+        transform: skew(-0.015turn, 0);
+        font-size:clamp(3rem, 10vw, 3.4rem);
+    }
+    .items-wrapper{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+
+    /* selected button css */
+    *{
+        user-select: none;
+        transition: var(--transition-speed);
+    }
+    .selected-container{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        place-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .selected-container .selection-title{
+        font-size:clamp(2rem, 10vw, 2.5rem);
+    }
+    .wrapper {
+        position: relative;
+        user-select: none;
+    }
+    input[type="radio"] {
+        position: absolute;
+        visibility: hidden;
+    }
+    .button-wrap {
+        max-width: 220px; min-width: 120px;
+        width: 100%;
+        aspect-ratio: 2/1;
+        overflow: hidden;
+        border: 2px solid rgba(var(--clr-accent-1-rgba), 0.4);
+        display: grid;
+        grid-template-areas: 'stack';
+        place-items: center;
+        cursor:not-allowed;
+        
+    }
+    .button-wrap > * {
+        grid-area: stack;        
+    }
+    .lable-content{
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        place-items: center;
+        text-transform: uppercase;
+    }
+    .lable-content > img{
+        width: clamp(100px, 85%, 130px)
+    }
+    .overlay{
+        width: 100%;
+        height: 100%;
+        background: var(--clr-dark-0);
+        opacity: 0.7;
+    }
+    .button-wrap > img {
+        width: 100%;
+        aspect-ratio: 2/1;
+        object-fit: cover;
+        object-position: center center;
+        /* filter: hue-rotate(60deg); */
+    }
+    /* submit button */
+    .submit-btn{
+        all: unset;
+        position: absolute;
+
+        right: 50%;
+        transform: translateX(50%);
+
+        font-size: clamp(1.3rem, 4vw, 1.5rem);
+        padding: 0.2em 1em;
+        font-weight: 400;
+        color: var(--clr-dark-1);
+        background-color: var(--clr-accent-1);
+        border: 2px solid  transparent;
+        font-family: var(--font-family-accent);
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: var(--transition-speed);
+        text-align: center;
+    }
+    .submit-btn:is(:hover, :focus){
+        transition: var(--transition-speed);
+        background-color: var(--clr-dark-1);
+        color:  var(--clr-accent-1);
+        border: 2px solid  var(--clr-accent-1);
+    }
+
+    /* invisible css */
+
+    /* .disabled-selection{
+        display: none;
+    }
+    .disabled-selected{
+        display: none;
+    } */
+
+    @keyframes in {
+        from {
+            opacity: 0;
+            transform: translateY(+100%);
+            display: none;
+        }
+            
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .disabled-selection{
+        animation: out linear 1s;
+        display: none;
+    }
+    .selected-container{
+        display: none;
+    }
+    .active-selected{
+        display: flex;
+        animation: in linear 200ms;
+    }
+</style>

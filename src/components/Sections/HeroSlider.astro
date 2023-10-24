@@ -1,0 +1,132 @@
+---
+
+import HeroSliderCard from "../Cards/HeroSliderCard.astro";
+const { title } = Astro.props;
+
+---
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<section  class="main-wrapper">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <HeroSliderCard class="swiper-slide"  Image="/assets/hero-slider-img-1.png"/>
+            <HeroSliderCard class="swiper-slide"  Image="/assets/hero-slider-img-1.png"/>
+            <HeroSliderCard class="swiper-slide"  Image="/assets/hero-slider-img-1.png"/>
+            <HeroSliderCard class="swiper-slide"  Image="/assets/hero-slider-img-1.png"/>
+            <HeroSliderCard class="swiper-slide"  Image="/assets/hero-slider-img-1.png"/>
+
+        </div>
+        <div class="swiper-icon-wrapper">
+            <div class="swipe-icon button-next mouseCursoAnimate"><i class='bx bxs-right-arrow'></i></div>
+            <div class="swipe-icon button-prev mouseCursoAnimate"><i class='bx bxs-left-arrow'></i></div>
+        </div>
+
+        <div class="swiper-pagination"></div>
+      </div>
+</section>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" is:inline></script>
+
+  <!-- Initialize Swiper -->
+  <script is:inline>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      draggable: true,
+      keyboard: {
+        enabled: true,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        // dynamicBullets: true,
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".button-next",
+        prevEl: ".button-prev",
+      },
+      autoplay: {
+        delay: 3400,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+
+    },
+    });
+  </script>
+<style is:global>
+  .swiper-pagination-bullet{
+    user-select: none !important;
+    background-color: var(--clr-light-silver) !important;
+  }
+    .swiper-pagination-bullet-active-main, .swiper-pagination-bullet-active{
+        background-color: var(--clr-accent-1) !important;
+        /* opacity: 0.8 !important; */
+    }
+    .swiper-pagination-bullet-active-main{
+        opacity: 0.7 !important;
+    }
+</style>
+<style>
+
+    .main-wrapper{
+      width: 100vw;
+      overflow: hidden;
+    }
+    .swiper {
+
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+
+    .swiper-icon-wrapper{
+        /* position: absolute; */
+        z-index: 100;
+        right: 2rem;
+        bottom: 0;
+        /* display: flex; */
+        /* flex-direction: column; */
+        gap: 0.5em;        
+        font-size: clamp(0.7rem, 2.6vw, 1.1rem);
+    }
+    .swipe-icon{
+       /* width: 40px; */
+       /* aspect-ratio: 1; */
+       font-size: 1.5em;
+        padding: 0.2em 0.3em;
+        background-color: rgba(var(--clr-dark-1-rgba), 0.8);
+        border: 1px solid rgba(var(--clr-accent-1-rgba), 0.8);
+        color: rgba(var(--clr-accent-1-rgba), 0.7);
+        border-radius: 5px;
+        user-select:none;
+        cursor: pointer;
+        transition: var(--transition-speed);
+    }
+    .swipe-icon:hover {
+        transition: var(--transition-speed);
+        /* background-color: rgba(var(--clr-accent-1-rgba), 0.3); */
+        border: 1px solid rgba(var(--clr-accent-1-rgba), 0.8);
+        color: rgba(var(--clr-accent-1-rgba), 1);
+        background-color: rgba(var(--clr-dark-1-rgba), 1);
+
+    }
+    .button-next{
+      z-index: 100;
+      position: absolute;
+      right: 2%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .button-prev{
+      z-index: 100;
+      position: absolute;
+      left: 2%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    /* swiper-pagination-bullet swiper-pagination-bullet-active swiper-pagination-bullet-active-main */
+
+
+</style>

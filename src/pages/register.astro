@@ -1,0 +1,558 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+import Header from '../components/Sections/Header.astro';
+import GameSelect from '../components/Sections/GameSelect.astro';
+import PlayerSubForm from '../components/Cards/PlayerSubForm.astro';
+import ButtonProcessing from '../components/ButtonProcessing.astro';
+
+// player[num]_error_text 
+// input error outline class: input-error
+---
+
+<Layout title="Dew Arena BD">
+	<Header/>
+    <nav class="navbar"><a href="/" target="_blank">Tour Details<i class='bx bx-link-external'></i></a></nav>
+
+    
+    <div id="link-invalid-content">
+        <h1 id="link-invalid-text">Registration link <span class="red-clr">Invalid!</span></h1>
+    </div>
+    <div class="contents" id="link-valid-content">
+        <div class="warning-text-wrapper">
+            <h1>*Don’t Share this link with others!</h1>
+            <p>One link can only be used once by the registered team leader</p>
+        </div>
+        <section class="container">
+            <div class="selections">
+                <GameSelect/>
+            </div>
+            <form class="form leader_info_form" id="leader_info_form" method="post"  name="contact-form">
+                <div class="text-wrapper">
+                    <h1 class="title" id="leader-heading">Enter leader details.</h1>
+                    <p class="desc" id="leader-desc">Must match the email and number used to start the registration porcceses.</p>
+                </div>
+                <div class="form-inputs-wrapper">
+                    <div class="form-group">
+                        <p class="input-error-text" id="leader_email_error_text"></p>
+                        <label for="email">Email</label>
+                        <input class="form-input leader-form-input" type="email" name="email" id="leader_email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <p class="input-error-text" id="leader_number_error_text"></p>
+                        <label for="number">Mobile</label>
+                        <input class="form-input leader-form-input" type="number" name="mobile" id="leader_number" placeholder="Mobile" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="leader_ign">In game name</label>
+                        <input class="form-input leader-form-input" type="text" name="leader_ign" id="leader_ign"placeholder="In game name" required>
+                    </div>
+                </div>
+                <ButtonProcessing id="leaderSumbitButtonAnimation"/>
+                <input class="submit-btn leader_continue_button" type="submit" value="Continue" id="leader_continue_button" placeholder="Continue">
+                
+            </form>
+    
+            <form class="form players_form disabled" id="player_info_form" method="post" name="contact-form">
+                <PlayerSubForm playerNum="2"/>
+                <PlayerSubForm playerNum="3"/>
+                <PlayerSubForm playerNum="4"/>
+                <PlayerSubForm playerNum="5"/>
+                <PlayerSubForm playerNum="6"/>
+                <PlayerSubForm playerNum="7"/>
+                <!-- <div>
+                    <input type="checkbox" name="Confirm" id="confirm-check-mark" required>
+                    <label for="">I here by confirm that all the information above is correct and I agree with all the terms & conditions</label>
+                </div> -->
+                <ButtonProcessing id="playerSumbitButtonAnimation"/>
+                <input class="submit-btn" type="submit" value="Submit team info" id="player_submit_button" placeholder="Submit team info">
+            </form>
+    
+        </section>
+    </div>
+
+</Layout>
+
+<script is:inline>
+    // player[num]_email
+    // player[num]_number
+    // player[num]_bottleCode
+    // player[num]_ign
+    // player[num]_bottleCode_error_text
+    // input error outline class: input-error
+
+    // successAlert('Sign up complete!');
+    // dangerAlert("Error signing up");
+    
+    const urlData = window.location.search;
+    let dataParams = new URLSearchParams(urlData);
+    const leaderForm = document.getElementById("leader_info_form");
+    const leader_email_in = document.getElementById("leader_email");
+    const leader_number_in = document.getElementById("leader_number");
+    const leader_ign_in = document.getElementById("leader_ign");
+    const leader_submit_button = document.getElementById("leader_continue_button")
+    const player_submit_button = document.getElementById("player_submit_button")
+    // invalid url action
+    function linkInValid(msg=null) {
+        document.getElementById('link-valid-content').style.display = 'none';
+        document.getElementById('link-invalid-content').style.display = 'block';
+        if(msg) document.getElementById('link-invalid-text').innerText = msg;
+    }
+    // leader data matched action
+    function leaderDataMatched () {
+            playerForm.classList.remove("disabled");
+            document.getElementById("leader_continue_button").classList.add("disabled");
+            leader_email_in.disabled = true;
+            leader_number_in.disabled = true;
+            leader_ign_in.disabled = true;
+            document.getElementById("leader-heading").innerText = "Leader Details";
+            document.getElementById("leader-desc").innerText = "*One leader can only register one team.";
+            deactiveEl("leaderSumbitButtonAnimation", {by: 'opacity'});
+    }
+    
+    function deactiveEl(el, {by=null}={}){
+        if(by == "opacity")  document.getElementById(el.toString()).style.opacity = "0";
+            else  document.getElementById(el.toString()).style.display = "none";
+    }
+    function activeEl(el, {by=null}={}){
+            document.getElementById(el.toString()).style.opacity = "1";
+            document.getElementById(el.toString()).style.display = "block";
+    }
+
+    const leaderInfo = {
+            email: null,
+            number: null,
+            ign: null,
+            unqC: null
+        }
+    const playerForm = document.getElementById("player_info_form");
+
+   
+
+    // leader  form data collection and info check
+    leaderForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if(!(dataParams.get("token")) || !(dataParams.get("code") == "0021") || !(dataParams.get("nsdtoken") == "55589") || !(dataParams.get("client") == "x3zen"))  {
+            return linkInValid();
+        }
+
+        // gets the leader info from form
+        leaderInfo.email = leader_email_in.value;
+        leaderInfo.number = leader_number_in.value;
+        leaderInfo.ign = leader_ign_in.value,
+        leaderInfo.unqC =  dataParams.get("token");
+
+        // constructs form data for the api request
+        const leaderFormData = new FormData();
+        leaderFormData.append('leaderEmail', leaderInfo.email?.toString());
+        leaderFormData.append('leaderMobile', leaderInfo.number?.toString());
+        leaderFormData.append('leader_ign', leaderInfo.ign?.toString());
+        leaderFormData.append('uniqCode', leaderInfo.unqC);
+
+        // loading button animation
+        leader_submit_button.style.display = "none";
+        activeEl("leaderSumbitButtonAnimation", {by: 'opacity'});
+        // leader info check
+        
+        // http://127.0.0.1:8787/leader_info_check
+        try{
+            const res = await fetch(getFetchUrl('leader_info_check'), {
+                method: 'POST',
+                body: leaderFormData
+            })
+
+            const resData = await res.json();
+            // console.log(resData)
+
+            // server side error
+            if(resData.status_code == 500) throw new Error(resData.message);
+            // uniq code data not found 
+            if(resData.status_code == 433) throw new Error(resData.message);
+
+            // leader info didn't match
+            if(resData.status_code == 403) {
+                // errorFiled(el, msg, inputEl=null)
+
+                if(resData.matchFields.emailNoMatch)
+                    errorFiled('leader_email_error_text', "Email doesn't match with registration link", 'leader_email');
+                if(resData.matchFields.numberNoMatch) 
+                    errorFiled('leader_number_error_text', "Number doesn't match with registration link", 'leader_number');
+                
+                throw new Error(resData.message);
+            }
+            // already registered
+            if(resData.status_code == 402) {
+                linkInValid("You've already registered.");
+                throw new Error(resData.message);
+            }
+            if(resData.status_code == 200) leaderDataMatched();
+
+        } catch(err) {
+            if(!err.message || err.message == 'Failed to fetch') dangerAlert("Error! try checking your internet connection", 5500);
+            else dangerAlert(err, 8000);
+            leader_submit_button.style.display = "block";
+            leader_submit_button.classList.add("error-button");
+            leader_submit_button.value = "Error!"
+            leader_submit_button.disabled = true;
+            deactiveEl("leaderSumbitButtonAnimation", {by: 'opacity'});
+
+            setTimeout(() => {
+                leader_submit_button.classList.remove("error-button");
+                leader_submit_button.value = "Continue"
+                leader_submit_button.disabled = false;
+            }, 3900)
+        }
+        
+    });
+
+    // !----------------------------------------------------------------
+    playerForm.addEventListener('submit', async (event) =>{
+        event.preventDefault();
+        player_submit_button.style.display = "none";
+        activeEl("playerSumbitButtonAnimation", {by: 'opacity'});
+        const playerFormData = new FormData();
+        playerFormData.append('leaderEmail',leaderInfo.email);
+        playerFormData.append('leaderMobile', leaderInfo.number);
+        playerFormData.append('leader_ign', leaderInfo.ign);
+        playerFormData.append('uniqCode', leaderInfo.unqC);
+        playerFormData.append('game', selectedGame);
+        playerFormData.append('division', selectedDivision);
+        const playersFormInputData = [
+            { email: "", number: "", ign: "", age: "", bottleCode: "" },
+            { email: "", number: "", ign: "", age: "", bottleCode: "" },
+            { email: "", number: "", ign: "", age: "", bottleCode: "" },
+            { email: "", number: "", ign: "", age: "", bottleCode: "" },
+            { email: "", number: "", ign: "", age: "", bottleCode: "" },
+            { email: "", number: "", ign: "", age: "", bottleCode: "" }
+        ]
+        playersFormInputData.map((player, index) => { 
+            player.email = document.getElementById(`player${index + 2}_email`).value;
+            player.number = document.getElementById(`player${index + 2}_number`).value;
+            player.ign = document.getElementById(`player${index + 2}_ign`).value;
+            player.age = document.getElementById(`player${index + 2}_age`).value;
+            player.bottleCode = document.getElementById(`player${index + 2}_bottleCode`).value;
+
+            playerFormData.append(`player${index + 1}Email`, player.email);
+            playerFormData.append(`player${index + 1}Mobile`, player.number);
+            playerFormData.append(`player${index + 1}Age`, player.age);
+            playerFormData.append(`player${index + 1}BottleCode`, player.bottleCode);
+            playerFormData.append(`player${index + 1}ign`, player.ign);
+        });
+        try {
+            // http://127.0.0.1:8787/teamSignUp
+            // getFetchUrl('teamSignUp')
+            
+            const res = await fetch(getFetchUrl('teamSignUp'), {
+                method: 'POST',
+                body: playerFormData,
+            })
+            const resData = await res.json();
+            console.log(resData);
+            // server side error & impossible errors
+            if(resData.status_code == 500 || resData.status_code == 412 || resData.status_code == 400) throw new Error(resData.message);
+            // reg link already used
+            if(resData.status_code == 401) throw new Error(resData.message);
+
+            // handles player bottle code error
+            if(resData.status_code == 403){
+                resData.matchFields.map( async(field) => {
+                    if(field.codeNoMatched){
+                        console.log(field.index + " index")
+                        errorFiled(`player${field.index + 1}_bottleCode_error_text`, field.codeStatus, `player${field.index + 1}_bottleCode`)
+                    }
+                })
+                throw new Error(resData.message);
+            }
+            // handles server db update error
+            if(resData.status_code == 551 || resData.status_code == 550){
+                linkInValid(resData.message);
+                throw new Error(resData.message);
+            }
+            // success
+            if(resData.status_code == 200){
+                linkInValid(resData.message);
+                player_submit_button.style.display = "block";
+                player_submit_button.value = "Completed";
+                player_submit_button.disabled = true;
+                deactiveEl("playerSumbitButtonAnimation", {by: 'opacity'});
+                document.getElementById('link-invalid-text').style.color = 'var(--clr-accent-1)'
+                successAlert(resData.message, 4500);
+            }
+        } catch (err) {
+            
+            if(!err.message) dangerAlert("Error! try checking your internet connection", 5500);
+            else dangerAlert(err.message, 8000);
+
+            player_submit_button.style.display = "block";
+            player_submit_button.classList.add("error-button");
+            player_submit_button.value = "Error!"
+            player_submit_button.disabled = true;
+            deactiveEl("playerSumbitButtonAnimation", {by: 'opacity'});
+
+            setTimeout(() => {
+                player_submit_button.classList.remove("error-button");
+                player_submit_button.value = "Submit team info"
+                player_submit_button.disabled = false;
+            }, 3900)
+        }
+
+    });
+
+
+</script>
+
+<style>
+    /* invalid content */
+    #link-invalid-content {
+        display: none;
+        max-width: 1300px;
+        margin-inline: auto;
+    }
+    #link-invalid-content h1{
+        font-size: clamp(3rem, 10vw, 6.8rem);
+        font-weight: 400;
+        text-align: center;
+        padding: 8rem 0.5rem;
+    }
+    .navbar{
+        width: 100%;
+        text-align: center;
+        padding: 1rem;
+        /* padding-top:1.3rem; */
+        font-size: clamp(0.6rem, 4vw, 1.1rem);
+        background-color: rgba(var(--clr-accent-1-rgba), 0.04);
+        background-color: rgba(var(--clr-dark-1-rgba), 0.6);
+    }
+    .navbar a{
+        max-width: calc(var(--container-max-width) - 100px);
+        margin-inline: auto;
+        display: flex;
+        place-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        font-weight: 800;
+        padding: 0.3em 0.8em;
+        border-radius: 5px;
+        color: var(--clr-accent-1);
+        transition: var(--transition-speed);
+        filter: drop-shadow(0px 0px 30px rgba(var(--clr-accent-1-rgba), 0.4));
+    }
+    .navbar a:hover{
+        color: var(--clr-accent-1);
+        transition: var(--transition-speed);
+        background: rgba(var(--clr-accent-1-rgba), 0.3);
+        
+		filter: drop-shadow(0px 0px 30px rgba(var(--clr-accent-1-rgba), 0.9));
+    }
+    .navbar i{
+        margin-left: 5px;
+        margin-top: -2px;
+        font-size: 1.15em;
+    }
+    .container{
+        min-height:50vh;
+        margin-top: -2.7rem;
+    }
+    .warning-text-wrapper{
+        text-align: center;
+        padding: 0.5rem;
+        margin-top: 2rem;
+        font-size:  clamp(2rem, 7vw, 3.1rem);
+    }
+    .warning-text-wrapper h1{
+        font-size: 1em;
+        font-weight: 500;
+        color: var(--clr-dew-red);
+        /* margin-bottom: -14px; */
+        line-height: 1em;
+    }
+    .warning-text-wrapper p{
+        font-size: 0.4em;
+        
+    }
+    .warning-text-wrapper{
+        text-align: center;
+    }
+     /* form css start */
+     #leader_info_form{
+        margin-bottom: 5rem;
+     }
+    .form{
+        padding: 2rem;
+        background: var(--clr-dark-2);
+        position: relative;
+    }
+
+     /* form heading css start */
+    .text-wrapper{
+        padding: 0.5rem 0;
+    }
+    .title{
+        font-size: clamp(1.9rem, 9vw, 3.1rem);
+        color: var(--clr-accent-1);
+        line-height: 1em;
+    }
+    .desc{
+        font-size: clamp(0.8rem, 3vw, 1.2rem);
+        opacity: 0.7;
+    }
+      /* form heading css end */
+
+     /* input css start */
+    .form-inputs-wrapper{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1.2rem;
+        padding: 1rem 0;
+    }
+    .form-group{
+        flex: 1 1 250px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+    @media screen and (max-width:440px){
+        .form{
+            padding: 1rem;
+        }
+        .form-group{
+        flex: 1 0 120px;
+        }
+    }
+    .form-group label {
+        opacity: 0.8;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+    input:disabled {
+        /* pointer-events: none; */
+        /* caret: unset; */
+        caret-color: transparent;
+        user-select: none;
+        cursor: not-allowed;
+    }
+    .form-input{
+        all: unset;
+        /* resize: vertical; */
+        color: var(--clr-light-silver);
+        /* border-radius: 5px; */
+        background-color: rgba(var(--clr-dark-0-rgba), 0.55);
+        border: 2px  solid transparent;
+        text-align: start;
+        padding: .8rem;
+    }
+    .form-input:focus {
+        transition: var(--transition-speed) ease-in-out;
+        background-color: rgba(var(--clr-dark-0-rgba), 0.95);
+    border-bottom: 2px  solid rgba(var(--clr-accent-1-rgba), 0.8);
+    }
+    @media screen and (max-width:370px){
+        .form-input{
+            width: 85%;
+        }
+    }
+    /* input css end / form css end */
+    /* submit button */
+    .submit-btn{
+        all: unset;
+        position: absolute;
+
+        right: 50%;
+        transform: translateX(50%);
+
+        font-size: clamp(1.3rem, 4vw, 1.5rem);
+        padding: 0.2em 1em;
+        font-weight: 400;
+        color: var(--clr-dark-1);
+        background-color: var(--clr-accent-1);
+        border: 2px solid  transparent;
+        font-family: var(--font-family-accent);
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: var(--transition-speed);
+        text-align: center;
+    }
+    .submit-btn:is(:hover, :focus){
+        transition: var(--transition-speed);
+        background-color: var(--clr-dark-1);
+        color:  var(--clr-accent-1);
+        border: 2px solid  var(--clr-accent-1);
+    }
+    .leader_continue_button{
+        bottom: -5rem;
+        font-size: clamp(1.3rem, 4vw, 1.5rem);
+    }
+    #player_submit_button{
+        bottom: -9.8rem;
+    }
+
+    body{
+		width: 100%;
+		overflow-x: hidden;
+	}
+
+    .players_form{
+        margin-bottom: 8rem;
+    }
+    .input-error{
+        border: 1px solid var(--clr-dew-red);
+    }
+    .input-error-text{
+        position: absolute;
+        right: 0;
+        bottom: -1.1rem;
+        font-size: 0.86rem;
+        font-weight: 600;
+        color: rgb(255, 22, 77);
+        border-radius: 5px;
+        pointer-events: none;
+        
+    }
+    .red-error-border{
+        border: 1px solid rgb(255, 22, 77);
+    }
+    .error-button{
+        background: rgb(255, 22, 77);
+        pointer-events:none;
+
+    }
+    .disabled{
+        display: none;
+    }
+    @keyframes in {
+        from {
+            opacity: 0;
+            transform: translateY(+100%);
+            display: none;
+        }
+            
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .disabled-selection{
+        animation: out linear 1s;
+        display: none;
+    }
+
+        
+    .leader_info_form{
+        display: none;
+    }
+    
+    .active-selected{
+        display: block;
+        animation: in linear 200ms;
+    }
+</style>

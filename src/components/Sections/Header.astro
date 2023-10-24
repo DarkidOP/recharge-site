@@ -1,0 +1,67 @@
+<section >
+    <div class="wrapper">
+        <div class="overlay overlay-left"></div>
+        <div class="overlay overlay-right"></div>
+        <!-- <img class="backdrop" src="/assets/header-background.gif" alt="header"> -->
+        <img class="tour-logo" src="/dew-areana-logo.png" alt="header">
+        <div class="backdrop"></div>
+    </div>
+
+</section>
+
+<style>
+    .wrapper {
+        display: grid;
+        place-items: center;
+        grid-template-areas: 'stack';
+        overflow: hidden;
+        width: 100vw;
+        height: 180px;
+        border-bottom: 2px solid var(--clr-accent-1);
+        position: relative;
+       
+    }
+    .backdrop {
+        opacity: 0.5;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        background-image:  url('/assets/header-background.gif');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 75%;
+    }
+    .wrapper .backdrop {
+        grid-area: stack;
+        width: 70%;
+        object-fit: cover;
+        object-position: center 10%;
+    }
+    .overlay{
+        z-index: -1;
+        width: 65%;
+        height: 100%;
+        position: absolute;
+        background-color: red;
+        background: linear-gradient(90deg, 
+        rgba(var(--clr-dark-1-rgba),1) 45%, 
+        rgba(var(--clr-dark-1-rgba),0) 100%);
+    }
+    .overlay-left{
+        left: 0;
+    }
+    .overlay-right{
+        right: 0;
+        background: linear-gradient(-90deg, 
+        rgba(var(--clr-dark-1-rgba),1) 45%, 
+        rgba(var(--clr-dark-1-rgba),0) 100%);
+    }
+    .tour-logo{
+        grid-area: stack;
+        min-width: 140px;
+        max-width: 200px;
+        width: 9.7vw;
+        filter: drop-shadow(0px 2px 30px rgba(var(--clr-accent-1-rgba),0.9));
+    }
+</style>

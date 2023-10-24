@@ -1,0 +1,15 @@
+---
+const { class: className, game } = Astro.props;
+
+---
+
+<li class={className}><img src={game.logo} alt={game.name}></li>
+
+<style>
+    li{
+        text-align: center;
+    }
+    img{
+        max-width: 140px;
+    }
+</style>

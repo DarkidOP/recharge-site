@@ -1,0 +1,52 @@
+---
+const { name, logo, description, link, class: className, target="_blank", linkText="Learn More"} = Astro.props;
+---
+<div class={className} id="partnerCardWrapper">
+    <img class="partner-logo" src={logo} alt={name}>
+    <div class="line"></div>
+    <p class="desc">{description}</p>
+    <a class="link" href={link} target={target}>{linkText}</a>
+</div>
+<style>
+
+    #partnerCardWrapper{
+        background: linear-gradient(180deg, rgba(var(--clr-accent-1-rgba), 0.24) 0%, rgba(var(--clr-dark-0-rgba), 0) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+    }
+    .partner-logo{
+        padding: 1.5rem;
+        max-width: 250px;
+    }
+    .line{
+        width: 100%;
+        height: 2px;
+        background-color: var(--clr-accent-1);
+    }
+    .desc{
+        padding: 1.5rem;
+        opacity: 0.8;
+    }
+    .link{
+        all: unset;
+
+        font-size: 1.04rem;
+        letter-spacing: 0.02em;
+        padding: 0.5em 1.2em;
+        color: var(--clr-dark-1);
+        background-color: var(--clr-accent-1);
+        border: 2px solid  transparent;
+        /* border-radius: 3px; */
+        font-family: 'American Captain', sans-serif;
+        cursor: pointer;
+        transition: var(--transition-speed);
+    }
+    .link:is(:hover, :focus){
+        transition: var(--transition-speed);
+        background-color: var(--clr-dark-1);
+        color:  var(--clr-accent-1);
+        border: 2px solid  var(--clr-accent-1);
+    }
+</style>
