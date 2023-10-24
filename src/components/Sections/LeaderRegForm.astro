@@ -29,7 +29,8 @@
 
                 
             </div>
-            <input class="submit-btn" type="submit" value="SIGN UP" id="submit" placeholder="SIGN UP">
+            <!-- <input class="submit-btn" type="submit" value="SIGN UP" id="leader-submit" placeholder="SIGN UP"> -->
+            <button class="submit-btn" type="submit" value="SIGN UP" id="main-leader-submit"><span class="btn-text" id="main-leader-submit-text">SIGN UP</span><span class="btn-ring"></span></button>
         </div>
         <div class="leader-form-complete" id="leader-form-complete">
             <h1 id="leader-form-complete_text">Sigup completed! check you mail for confirmation mail</h1>
@@ -45,10 +46,16 @@
     const number = document.getElementById('number');
     const age = document.getElementById('age');
     const bottleCodeEl = document.getElementById('bottleCode');
+    const leader_form_submit_button = document.getElementById('main-leader-submit');
+    const leader_form_submit_button_text= document.getElementById('main-leader-submit-text');
 
+    
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
+
+        leader_form_submit_button.classList.add('btn-processing');
+        leader_form_submit_button.setAttribute("disabled", "");
 
         console.log(age.value)
         const formData = new FormData;
@@ -99,9 +106,18 @@
             }
 
         } catch (err) {
+            if(!err.message || err.message == 'Failed to fetch') dangerAlert("Error! try checking your internet connection", 5500);
+            else dangerAlert(err, 8000);
 
-            if(!err.message) dangerAlert("Error! try checking your internet connection", 5000);
-            else dangerAlert("Error! " + err.message, 5000);
+            leader_form_submit_button.classList.remove("btn-processing");
+            leader_form_submit_button.classList.add("btn-error");
+            leader_form_submit_button_text.innerText = 'error!'
+
+            setTimeout(() => {
+                leader_form_submit_button.classList.remove("btn-error");
+                leader_form_submit_button_text.innerText= "Sign up"
+                leader_form_submit_button.removeAttribute("disabled");
+            }, 4900)
         }
     });
 </script>
@@ -197,6 +213,52 @@
         background-color: var(--clr-dark-1);
         color:  var(--clr-accent-1);
         border: 2px solid  var(--clr-accent-1);
+    }
+    .btn-ring{
+    display: none;
+    padding: 0.2rem 1rem;
+    }
+    .btn-ring:after {
+    content: "";
+    display: block;
+    width: 25px;
+    height: 25px;
+    
+    margin: auto;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: ring 1.2s linear infinite;
+    }
+    .btn-processing  {
+        cursor: not-allowed;
+    }
+    .btn-processing:is(:hover, :focus)  {
+        background-color:  var(--clr-accent-1);;
+    }
+    .btn-processing .btn-text {
+        display: none;
+    }
+    .btn-processing .btn-ring {
+        display: block;
+    }
+    .btn-error{
+        cursor: not-allowed;
+        background-color: var(--clr-red);
+    }
+    .btn-error:is(:hover, :focus)  {
+        color: var(--clr-dark-0);
+        background-color: var(--clr-red);
+        border: 2px solid   var(--clr-red);
+    }
+
+    @keyframes ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
     }
     @media screen and (max-width:370px){
         .form{
